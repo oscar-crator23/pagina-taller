@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito de Compras</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .product-card {
+      display: flex;
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      width: 700px;
+      margin-bottom: 30px;
+      align-items: center;
+    }
+
+    .product-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-right: 25px;
+      background-color: #f0f0f0;
+    }
+
+    .product-details {
+      flex: 1;
+    }
+
+    .product-details p {
+      font-size: 16px;
+      margin: 5px 0 10px;
+      line-height: 1.4;
+    }
+
+    .quantity-controls {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f3f3f3;
+      border-radius: 50px;
+      padding: 8px 12px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .quantity-controls button {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      margin: 0 10px;
+      transition: all 0.2s ease;
+    }
+
+    .quantity-controls button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin-left: 20px;
+    }
+
+    .action-links {
+      margin-top: 15px;
+    }
+
+    .action-links a {
+      margin-right: 20px;
+      color: #1a56db;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .summary {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      width: 320px;
+      height: fit-content;
+    }
+
+    .summary h3 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #444;
+    }
+
+    .summary p {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-checkout:hover {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+  </style>
+</head>
+<body>
+  <h2>Carrito de Compras</h2>
+  <div class="container">
+    <div id="cart-items"></div>
+    <div class="summary">
+      <h3>Resumen de compra</h3>
+      <p><span>Producto</span><span id="subtotal">$0</span></p>
+      <p><span>Total</span><span id="total">$0</span></p>
+      <button class="btn-checkout" id="checkout-btn">Continuar Comprar</button>
+    </div>
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartContainer = document.getElementById('cart-items');
+    const subtotalSpan = document.getElementById('subtotal');
+    const totalSpan = document.getElementById('total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    // Función para generar un ID único para el pedido
+    function generateOrderId() {
+      return 'ORD-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5).toUpperCase();
+    }
+
+    // Función para registrar el pedido
+    function registerOrder() {
+      if (cart.length === 0) {
+        alert('Tu carrito está vacío. Agrega productos antes de continuar.');
+        return;
+      }
+
+      const order = {
+        id: generateOrderId(),
+        date: new Date().toLocaleString(),
+        items: [...cart],
+        total: calculateTotal(),
+        status: 'Pendiente'
+      };
+
+      // Obtener pedidos existentes o inicializar array vacío
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      // Agregar nuevo pedido
+      orders.push(order);
+      
+      // Guardar en localStorage
+      localStorage.setItem('orders', JSON.stringify(orders));
+      
+      // Vaciar el carrito
+      localStorage.removeItem('cart');
+      cart.length = 0;
+      
+      // Redirigir a página de confirmación
+      alert('Pedido registrado exitosamente. Será visible en tu apartado de pedidos.');
+      window.location.href = 'success.html'; // Cambia por tu página de éxito
+    }
+
+    // Calcular total del carrito
+    function calculateTotal() {
+      return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    }
+
+    function renderCart() {
+      cartContainer.innerHTML = '';
+      let subtotal = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        const div = document.createElement('div');
+        div.className = 'product-card';
+        div.innerHTML = `
+          <img class="product-img" src="img/producto${item.id}.jpg" alt="Producto">
+          <div class="product-details">
+            <p>${item.name}</p>
+            <div class="quantity-controls">
+              <button onclick="changeQuantity(${index}, -1)">−</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQuantity(${index}, 1)">+</button>
+              <span class="price">$${itemTotal}</span>
+            </div>
+            <div class="action-links">
+              <a onclick="saveItem(${index})">Guardar</a>
+              <a onclick="removeItem(${index})">Eliminar</a>
+            </div>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      subtotalSpan.textContent = `$${subtotal}`;
+      totalSpan.textContent = `$${subtotal}`;
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function changeQuantity(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function saveItem(index) {
+      alert('Producto guardado exitosamente (simulado)');
+    }
+
+    // Evento para el botón de checkout
+    checkoutBtn.addEventListener('click', registerOrder);
+
+    renderCart();
+  </script>
+</body>
+</html>

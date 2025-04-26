@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <title>Login - Ropa Típica Chiapa de Corzo</title>
+</head>
+<body>
+    <div class="form-body">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKMAAACUCAMAAADIzWmnAAAAY1BMVEUAAAD///9OTk77+/v4+PiEhIT09PTl5eWhoaHo6OhhYWHi4uLIyMi2trYnJycfHx9ra2vU1NSZmZmpqakUFBRWVlZ8fHzc3Nw4ODi9vb1bW1tFRUV1dXUwMDBmZmawsLCNjY0zDIdyAAAE30lEQVR4nO2cfZOiMAyH64IoCCi4vrC6nt//Ux4c451CC0n6C+zc+Pzv+AySNk1SzUJGcTFcLoXwu4zsYxnbsCGb0rEUKRpTTuYYLoWKxizDaRw9FGWSAserh6IxuwkcA+m7+KAM1B1/eSoa80vbMfVWNCbVdYxzgGMeazoGR4CiMUfeK8lz3EMUjdnrOUZbkOM2UnP0WxmfuWo5pp8wx09ObDMcQQHTwgkbhmMBVDSGkUwyHBOoY6LhGEEVjaGHNt3xDna84x2jA9jxQH6QZEfgwtNCX37Ijr5pYx/y4YbqGKJ/6vrHph4bqI4xXNEYaopGdawUHCuwo89Z0MUS7Pit4HjGOgaIM0KXnJhXEB1XqOz2me0K6ligV/CGT2LuQ3SU1cnGINbRiI6ow9YrxKMX0XGt4rh+O74d/1tH/4qeDWKVj+iokfaQM3Gi40llL9xAHWMNx5x46qLmZip5D/G7qY7YIkULtVRBddRYfIhLD9nxpOB4AjvCSrj/IBdzqY7Q4mMLuQRJrlPgdxpyL4nseDqDFc/U15FR27uBHenNTbojogv3DL1qz6g1YyN7S/9ihiP23MVodTEcY/4oipsLo6/J6SEh90PqPsh1jHAP8sJpGLL6hbjQZrXZeb3hHUiRN/jBc9xgNpsz8ZAgcgSdvahFZpnjApH+HJnfyXUM/A8NCXfAhz3fs/J9Jc/E6q2Ho3enhjk4I3JcFD7n2FwwqCmZLfQZCJDMkopmNDfSJ5nzFkYfx8VKFt0JO1w8HBehZNRnJxkilTvWOw53DToLJ4Y9HBcnXoKxIx8DgY6LoKKHTl6xp0chjs3cKy3rvZTCNxHgWAf4evxZbteycEY51hGeHoZ62/mh8nqGEMeazfpo1/y+lvJI+QfCsX6Ym6I8vLaPPw9luvF+hH/AOLYEcZrtG7I09gjjHkhHLd6OGN6OGN6OGN6OGPwc651lf78mH26S633vu+uIHeOiWtKPC5dlVvAP/16Ocbbkz74elplMU+AYVYm0DbJNKtatFJljkHrfi0uV62bpDTBkeFOskUYpaqoiZ/3kDMcMOVPxxajIkB1XOEtSrXsyPUromOEuwpQRw90vifF3wRoONBaSSRHnam9BlLbkOB405g/epAQDuDjDgV6kOKV83j0edRRZ6L5mtNu+5ijRjx3GbvsM+wY3CVSNOQ+vYMPOQaoXPMZuUHJIMdK49GNnObScDzgGEynWEsOPMkBxykVBy8luR31Nhc77i3H6ahzG2UIZ7bmcsReZKbh2HEcjtHHDI4fjuC2O4ZTLYyvOBqKdsep4+WBPW6sjhoXR2lYiwQ2R4X7t1Ss93RtjvrpmBtbomZxnO+XbrD82hbHeWH6gWVcru84x+r9TH8l7zmG6BlrLrde2PQc0SPWfHqH7p7j19yK5mvMce63saH7RnYd534bG7qh3XH0mndD0Z2b6zhOcZwepxxyxP/JGg9Jx3GK4/Q4ZZ8j/k/WfIg6jlMcp8cphxxnSRv7dBLJV8f5F56WdMBRs0LGIRlwnNvtL25HlZu3IiqnI/7um5SjyxH+V0dyviKHY6FxOVjGtnA4Tl+acJM5HKctQg1ztzuGP2OTafkIrY7oP1nzI7I6rubWemFldfxJIfMSNE+OPyMve1BaHX9KQtFyszoir2H6c7E66vYFuZxtjqHG34PJ+Q4tjpC/EMbx9GfEvwES5kdDGz1H4QAAAABJRU5ErkJggg==" alt="Logo Ropa Típica">
+        <p class="text">Bienvenido a<br>Armario de Chiapas</p>
+        <form class="login-form" id="loginForm">
+            <input type="text" id="username" placeholder="Email o usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="button" class="boton" onclick="login()">Iniciar Sesión</button>
+        </form>
+        <div class="login-footer">
+            <a href="#">¿Olvidaste tu contraseña?</a>
+            <p>¿No tienes cuenta? <a href="registros.html">Regístrate</a></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

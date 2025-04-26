@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Pedidos - Armario de Chiapas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #8B0000;
+      --primary-dark: #6d0000;
+      --secondary-color: #f8f1e7;
+      --text-color: #333;
+      --light-text: #666;
+      --border-color: #e0e0e0;
+      --success-color: #065f46;
+      --success-bg: #d1fae5;
+      --warning-color: #92400e;
+      --warning-bg: #fef3c7;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --radius: 12px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    
+    header {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    h1 {
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--primary-color);
+      font-size: 2rem;
+      position: relative;
+    }
+    
+    h1::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 0.5rem auto;
+      border-radius: 2px;
+    }
+    
+    .orders-container {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    .order-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    
+    .order-id {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .order-date {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .order-status {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-pending {
+      background-color: var(--warning-bg);
+      color: var(--warning-color);
+    }
+    
+    .status-completed {
+      background-color: var(--success-bg);
+      color: var(--success-color);
+    }
+    
+    .order-body {
+      padding: 1.5rem;
+    }
+    
+    .order-items {
+      margin-bottom: 1.5rem;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+    }
+    
+    .order-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+    }
+    
+    .item-name {
+      font-weight: 500;
+    }
+    
+    .item-quantity {
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .item-price {
+      font-weight: 600;
+    }
+    
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      background-color: rgba(139, 0, 0, 0.05);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .order-total {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+    }
+    
+    .order-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: inherit;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+    }
+    
+    .btn-outline:hover {
+      background-color: rgba(139, 0, 0, 0.1);
+    }
+    
+    .empty-orders {
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--light-text);
+      margin-bottom: 1.5rem;
+    }
+    
+    .empty-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+    
+    .empty-text {
+      color: var(--light-text);
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+      color: var(--light-text);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    @media (max-width: 768px) {
+      .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .order-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      
+      .order-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="success.html" class="logo">Armario de Chiapas</a>
+      <nav>
+        <a href="success.html" class="btn btn-outline">
+          <i class="fas fa-arrow-left"></i> Volver
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Mis Pedidos</h1>
+    
+    <div class="orders-container" id="orders-container">
+      <!-- Los pedidos se cargarán aquí dinámicamente -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2023 Armario de Chiapas. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ordersContainer = document.getElementById('orders-container');
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      // Datos de ejemplo para productos (en un caso real, esto vendría de una base de datos)
+      const productImages = {
+        "Camisa bordada": "https://via.placeholder.com/150/8B0000/FFFFFF?text=Camisa",
+        "Pantalón tradicional": "https://via.placeholder.com/150/8B0000/FFFFFF?text=Pantalón",
+        "Vestido artesanal": "https://via.placeholder.com/150/8B0000/FFFFFF?text=Vestido",
+        "Rebozo chiapaneco": "https://via.placeholder.com/150/8B0000/FFFFFF?text=Rebozo"
+      };
+
+      if (orders.length === 0) {
+        ordersContainer.innerHTML = `
+          <div class="empty-orders">
+            <div class="empty-icon">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <h3 class="empty-title">No tienes pedidos registrados</h3>
+            <p class="empty-text">Parece que aún no has realizado ningún pedido. Visita nuestra tienda para descubrir nuestros productos artesanales.</p>
+            <a href="success.html" class="btn btn-primary">
+              <i class="fas fa-store"></i> Ir a la tienda
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      // Mostrar pedidos en orden inverso (el más reciente primero)
+      orders.reverse().forEach(order => {
+        const orderElement = document.createElement('div');
+        orderElement.className = 'order-card';
+        
+        let itemsHTML = '';
+        order.items.forEach(item => {
+          itemsHTML += `
+            <div class="order-item">
+              <div class="item-info">
+                <img src="${productImages[item.name] || 'https://via.placeholder.com/150/8B0000/FFFFFF?text=Producto'}" 
+                     alt="${item.name}" class="item-image">
+                <div>
+                  <div class="item-name">${item.name}</div>
+                  <div class="item-quantity">Talla: ${item.size || 'Única'} • Cantidad: ${item.quantity}</div>
+                </div>
+              </div>
+              <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+            </div>
+          `;
+        });
+
+        orderElement.innerHTML = `
+          <div class="order-header">
+            <div>
+              <div class="order-id">Pedido #${order.id}</div>
+              <div class="order-date">${order.date}</div>
+            </div>
+            <span class="order-status ${order.status === 'Pendiente' ? 'status-pending' : 'status-completed'}">
+              ${order.status}
+            </span>
+          </div>
+          
+          <div class="order-body">
+            <div class="order-items">
+              ${itemsHTML}
+            </div>
+          </div>
+          
+          <div class="order-footer">
+            <div class="order-total">
+              Total: $${order.total.toFixed(2)}
+            </div>
+            <div class="order-actions">
+              <button class="btn btn-outline">
+                <i class="fas fa-redo"></i> Volver a pedir
+              </button>
+              <button class="btn btn-primary">
+                <i class="fas fa-truck"></i> Seguir envío
+              </button>
+            </div>
+          </div>
+        `;
+
+        ordersContainer.appendChild(orderElement);
+      });
+    });
+  </script>
+</body>
+</html>
